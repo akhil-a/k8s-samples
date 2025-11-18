@@ -1,0 +1,29 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: php-service-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    project: nginx-php-application
+    app: php
+  ports:
+    - port: 9000
+      targetPort: 9000
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service-nodeport
+spec:
+  type: NodePort
+  selector:
+    project: nginx-php-application
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
+

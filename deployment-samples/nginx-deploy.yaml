@@ -1,0 +1,38 @@
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+      project: nginx-php-application
+  template:
+    metadata:
+      labels:
+        app: nginx
+        project: nginx-php-application
+    spec:
+      containers: 
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: website-volume
+          mountPath: /usr/share/nginx/html/
+
+        - name: config-volume
+          mountPath: /etc/nginx/conf.d/  
+      volumes:
+      - name: website-volume
+        nfs:
+          server: 172.31.12.87
+          path: /var/website
+      - name: config-volume
+        configMap:
+          name: nginx-config
+
