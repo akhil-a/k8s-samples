@@ -2,10 +2,19 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
+  annotations:
+    kubernetes.io/change-cause: "Image version 1.12"
   name: nginx-deployment
+  labels:
+    project: nginx-php-application
 
 spec:
-  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 3
   selector:
     matchLabels:
       app: nginx
@@ -18,7 +27,7 @@ spec:
     spec:
       containers: 
       - name: nginx-container
-        image: nginx:latest
+        image: nginx:1.12
         ports:
         - containerPort: 80
         volumeMounts:

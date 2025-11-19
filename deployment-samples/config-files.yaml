@@ -3,6 +3,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: nginx-config
+  labels:
+    project: nginx-php-application
 data:
   default.conf: |
     server {

@@ -2,10 +2,19 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
+  annotations:
+    kubernetes.io/change-cause: "Adding rolling update"
   name: php-deployment
+  labels:
+    project: nginx-php-application
 
 spec:
-  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  replicas: 5
   selector:
     matchLabels:
       app: php
@@ -18,7 +27,7 @@ spec:
     spec:
       containers:
       - name: php-container
-        image: php:fpm-alpine3.15
+        image: php:fpm-alpine3.17
         ports:
         - containerPort: 9000
         volumeMounts:

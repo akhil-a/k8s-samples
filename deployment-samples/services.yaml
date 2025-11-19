@@ -3,6 +3,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: php-service-cluster-ip
+  labels:
+    project: nginx-php-application
 spec:
   type: ClusterIP
   selector:
@@ -17,6 +19,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: nginx-service-nodeport
+  labels:
+    project: nginx-php-application
 spec:
   type: NodePort
   selector:
